@@ -112,7 +112,7 @@ export default function ChatWidget({ className = 'h-screen' }: { className?: str
             <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               {m.role === 'assistant' && (
                 <div className="mr-2 mt-0.5">
-                  <BjAvatar size={9} />
+                  <BjAvatar size={20} />
                 </div>
               )}
               <div

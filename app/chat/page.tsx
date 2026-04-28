@@ -115,7 +115,7 @@ export default function ChatPage() {
           return (
             <div key={m.id} className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               {m.role === 'assistant' && (
-                <img src="/bjbot.png" alt="BJ" className="w-10 h-10 object-contain flex-shrink-0 mt-0.5" />
+                <img src="/bjbot.png" alt="BJ" className="w-20 h-20 object-contain flex-shrink-0 mt-0.5" />
               )}
               <div
                 className="max-w-[70%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap shadow-sm"
@@ -133,7 +133,7 @@ export default function ChatPage() {
 
         {isLoading && (
           <div className="flex gap-3 justify-start">
-            <img src="/bjbot.png" alt="BJ" className="w-10 h-10 object-contain flex-shrink-0 mt-0.5" />
+            <img src="/bjbot.png" alt="BJ" className="w-20 h-20 object-contain flex-shrink-0 mt-0.5" />
             <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
               <div className="flex gap-1 items-center h-4">
                 <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: BJ_RED, animationDelay: '0ms' }} />

@@ -66,10 +66,11 @@ export default function DashboardPage() {
         <div className="bg-blue-50 rounded-xl p-4 text-sm text-blue-700">
           <p className="font-medium mb-1">챗봇 테스트</p>
           <div className="flex gap-3">
-            <a href="/chat" target="_blank" rel="noopener noreferrer"
-              className="underline hover:no-underline">
-              /chat — 전체 화면 챗봇 →
-            </a>
+            <button
+              onClick={() => window.open('/chat', 'bjchat', 'width=420,height=700,resizable=yes')}
+              className="underline hover:no-underline text-left">
+              /chat — 팝업 챗봇 →
+            </button>
             <a href="/widget" target="_blank" rel="noopener noreferrer"
               className="underline hover:no-underline">
               /widget — 위젯 미리보기 →
