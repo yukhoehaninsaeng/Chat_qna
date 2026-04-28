@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ChatPopupButton from '@/components/ChatPopupButton';
 
 const BJ_RED = '#D91F26';
 const BJ_GRADIENT = 'linear-gradient(135deg, #D91F26 0%, #F5A000 100%)';
@@ -26,21 +27,8 @@ export default function HomePage() {
 
         {/* 사용 방법 2가지 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-          {/* 직접 접속 */}
-          <Link
-            href="/chat"
-            className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition group border-2 border-transparent"
-          >
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 text-white font-bold text-sm transition"
-              style={{ background: BJ_GRADIENT }}
-            >
-              BJ
-            </div>
-            <h2 className="font-semibold text-gray-900 mb-1">챗봇 바로 사용</h2>
-            <p className="text-sm text-gray-500">이 웹사이트에서 직접 문서 기반 Q&amp;A를 이용합니다</p>
-            <p className="text-xs font-medium mt-3" style={{ color: BJ_RED }}>바로 시작하기 →</p>
-          </Link>
+          {/* 팝업 채팅 */}
+          <ChatPopupButton />
 
           {/* 위젯 삽입 */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
