@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
 
     // 질문 임베딩 후 유사 청크 검색
     const queryEmbedding = await embedText(query);
-    const relevantChunks = await findRelevantChunks(queryEmbedding, 5, 0.4);
+    const relevantChunks = await findRelevantChunks(queryEmbedding, 5, 0.2);
     const systemPrompt = buildSystemPrompt(relevantChunks);
 
     const openaiProvider = createOpenAI({
