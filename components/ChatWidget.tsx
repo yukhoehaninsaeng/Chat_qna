@@ -35,12 +35,11 @@ const BJ_GRADIENT = 'linear-gradient(135deg, #D91F26 0%, #F5A000 100%)';
 function BjAvatar({ size = 6 }: { size?: number }) {
   const px = size * 4;
   return (
-    <div
-      className={`w-${size} h-${size} rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold`}
-      style={{ background: BJ_GRADIENT, width: px, height: px, fontSize: px * 0.35 }}
-    >
-      BJ
-    </div>
+    <img
+      src="/bjbot.png"
+      alt="BJ 도우미"
+      style={{ width: px, height: px, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+    />
   );
 }
 
