@@ -38,7 +38,7 @@ function BjAvatar({ size = 6 }: { size?: number }) {
     <img
       src="/bjbot.png"
       alt="BJ 도우미"
-      style={{ width: px, height: px, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+      style={{ width: px, height: px, borderRadius: '50%', objectFit: 'contain', background: '#fff', flexShrink: 0 }}
     />
   );
 }

@@ -60,7 +60,7 @@ export default function EmbedPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
-            <img src="/bjbot.png" alt="BJ" style={{ width: '56px', height: '56px', objectFit: 'cover', borderRadius: '50%' }} />
+            <img src="/bjbot.png" alt="BJ" style={{ width: '56px', height: '56px', objectFit: 'contain', borderRadius: '50%', background: '#fff' }} />
           )}
         </button>
       </div>
