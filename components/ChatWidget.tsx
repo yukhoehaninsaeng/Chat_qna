@@ -11,7 +11,7 @@ function getTextFromParts(parts: UIMessage['parts']): string {
     .join('');
 }
 
-export default function ChatWidget() {
+export default function ChatWidget({ className = 'h-screen' }: { className?: string }) {
   const [input, setInput] = useState('');
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({ api: '/api/chat' }),
@@ -32,7 +32,7 @@ export default function ChatWidget() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-white">
+    <div className={`flex flex-col ${className} bg-white`}>
       {/* 헤더 */}
       <div className="bg-blue-600 text-white px-4 py-3 flex items-center gap-3 flex-shrink-0">
         <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">

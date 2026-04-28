@@ -18,6 +18,13 @@ const nextConfig = {
         ],
       },
       {
+        source: '/embed',
+        headers: [
+          { key: 'X-Frame-Options', value: 'ALLOWALL' },
+          { key: 'Content-Security-Policy', value: "frame-ancestors *" },
+        ],
+      },
+      {
         source: '/api/chat',
         headers: [
           { key: 'Access-Control-Allow-Origin', value: '*' },
