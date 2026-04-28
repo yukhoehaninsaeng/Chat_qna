@@ -68,11 +68,7 @@ export default function ChatPage() {
       {/* 헤더 */}
       <header className="text-white px-6 py-4 flex items-center gap-3 sticky top-0 z-10"
         style={{ background: BJ_GRADIENT }}>
-        <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm bg-white/20"
-        >
-          BJ
-        </div>
+        <img src="/bjbot.png" alt="BJ" className="w-10 h-10 rounded-xl object-cover" />
         <div>
           <h1 className="font-bold text-base leading-tight">범진전자 AI 도우미</h1>
           <p className="text-xs text-white/70">업무 문서 기반으로 답변합니다</p>
@@ -87,12 +83,7 @@ export default function ChatPage() {
       <main className="flex-1 overflow-y-auto px-4 py-6 max-w-3xl w-full mx-auto space-y-4">
         {messages.length === 0 && (
           <div className="text-center mt-16">
-            <div
-              className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 font-bold text-2xl text-white shadow-lg"
-              style={{ background: BJ_GRADIENT }}
-            >
-              BJ
-            </div>
+            <img src="/bjbot.png" alt="BJ" className="w-20 h-20 rounded-2xl mx-auto mb-4 object-cover shadow-lg" />
             <h2 className="text-lg font-semibold text-gray-800">무엇이든 물어보세요</h2>
             <p className="text-sm text-gray-400 mt-2">
               범진전자 내부 문서를 기반으로 정확하게 답변드립니다
@@ -124,12 +115,7 @@ export default function ChatPage() {
           return (
             <div key={m.id} className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               {m.role === 'assistant' && (
-                <div
-                  className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 text-white text-xs font-bold"
-                  style={{ background: BJ_GRADIENT }}
-                >
-                  BJ
-                </div>
+                <img src="/bjbot.png" alt="BJ" className="w-8 h-8 rounded-xl object-cover flex-shrink-0 mt-0.5" />
               )}
               <div
                 className="max-w-[70%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap shadow-sm"
@@ -147,12 +133,7 @@ export default function ChatPage() {
 
         {isLoading && (
           <div className="flex gap-3 justify-start">
-            <div
-              className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 text-white text-xs font-bold"
-              style={{ background: BJ_GRADIENT }}
-            >
-              BJ
-            </div>
+            <img src="/bjbot.png" alt="BJ" className="w-8 h-8 rounded-xl object-cover flex-shrink-0 mt-0.5" />
             <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
               <div className="flex gap-1 items-center h-4">
                 <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: BJ_RED, animationDelay: '0ms' }} />

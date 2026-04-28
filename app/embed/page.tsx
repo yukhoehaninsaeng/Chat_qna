@@ -43,6 +43,8 @@ export default function EmbedPage() {
             color: '#fff',
             fontWeight: 'bold',
             fontSize: '13px',
+            padding: 0,
+            overflow: 'hidden',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'scale(1.1)';
@@ -58,7 +60,7 @@ export default function EmbedPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
-            <span>BJ</span>
+            <img src="/bjbot.png" alt="BJ" style={{ width: '56px', height: '56px', objectFit: 'cover', borderRadius: '50%' }} />
           )}
         </button>
       </div>
