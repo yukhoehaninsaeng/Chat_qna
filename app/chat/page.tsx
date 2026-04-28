@@ -4,6 +4,11 @@ import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport, UIMessage } from 'ai';
 import { useEffect, useRef, useState } from 'react';
 
+const STORAGE_KEY = 'bumjin_chat_v1';
+const TTL_MS = 24 * 60 * 60 * 1000;
+const BJ_RED = '#D91F26';
+const BJ_GRADIENT = 'linear-gradient(135deg, #D91F26 0%, #F5A000 100%)';
+
 function getTextFromParts(parts: UIMessage['parts']): string {
   return parts
     .filter((p) => p.type === 'text')
@@ -11,13 +16,40 @@ function getTextFromParts(parts: UIMessage['parts']): string {
     .join('');
 }
 
+function loadStoredMessages(): UIMessage[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const { messages, savedAt } = JSON.parse(raw) as { messages: UIMessage[]; savedAt: number };
+    if (Date.now() - savedAt > TTL_MS) {
+      localStorage.removeItem(STORAGE_KEY);
+      return [];
+    }
+    return messages;
+  } catch {
+    return [];
+  }
+}
+
 export default function ChatPage() {
   const [input, setInput] = useState('');
-  const { messages, sendMessage, status } = useChat({
+  const { messages, sendMessage, status, setMessages } = useChat({
     transport: new DefaultChatTransport({ api: '/api/chat' }),
   });
   const isLoading = status === 'streaming' || status === 'submitted';
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const stored = loadStoredMessages();
+    if (stored.length > 0) setMessages(stored);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ messages, savedAt: Date.now() }));
+    }
+  }, [messages]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,22 +64,22 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* 상단 헤더 */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center gap-3">
-        <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center">
-          <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
-          </svg>
+    <div className="min-h-screen flex flex-col" style={{ background: '#F8F8F8' }}>
+      {/* 헤더 */}
+      <header className="text-white px-6 py-4 flex items-center gap-3 sticky top-0 z-10"
+        style={{ background: BJ_GRADIENT }}>
+        <div
+          className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm bg-white/20"
+        >
+          BJ
         </div>
         <div>
-          <h1 className="font-semibold text-gray-900 leading-tight">사내 문서 도우미</h1>
-          <p className="text-xs text-gray-400">업로드된 문서를 기반으로 답변합니다</p>
+          <h1 className="font-bold text-base leading-tight">범진전자 AI 도우미</h1>
+          <p className="text-xs text-white/70">업무 문서 기반으로 답변합니다</p>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-          <span className="text-xs text-gray-400">온라인</span>
+          <span className="w-2 h-2 bg-green-300 rounded-full"></span>
+          <span className="text-xs text-white/70">온라인</span>
         </div>
       </header>
 
@@ -55,15 +87,15 @@ export default function ChatPage() {
       <main className="flex-1 overflow-y-auto px-4 py-6 max-w-3xl w-full mx-auto space-y-4">
         {messages.length === 0 && (
           <div className="text-center mt-16">
-            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+            <div
+              className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 font-bold text-2xl text-white shadow-lg"
+              style={{ background: BJ_GRADIENT }}
+            >
+              BJ
             </div>
             <h2 className="text-lg font-semibold text-gray-800">무엇이든 물어보세요</h2>
             <p className="text-sm text-gray-400 mt-2">
-              사내 문서에 등록된 내용을 기반으로 답변합니다
+              범진전자 내부 문서를 기반으로 정확하게 답변드립니다
             </p>
             <div className="mt-6 flex flex-wrap gap-2 justify-center">
               {[
@@ -74,7 +106,10 @@ export default function ChatPage() {
                 <button
                   key={q}
                   onClick={() => { sendMessage({ text: q }); }}
-                  className="bg-white border border-gray-200 hover:border-blue-400 hover:bg-blue-50 text-gray-600 hover:text-blue-700 text-sm px-4 py-2 rounded-full transition"
+                  className="bg-white border text-sm px-4 py-2 rounded-full transition hover:shadow-sm"
+                  style={{ borderColor: BJ_RED, color: BJ_RED }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = BJ_RED; e.currentTarget.style.color = '#fff'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.color = BJ_RED; }}
                 >
                   {q}
                 </button>
@@ -87,23 +122,22 @@ export default function ChatPage() {
           const text = getTextFromParts(m.parts);
           if (!text) return null;
           return (
-            <div
-              key={m.id}
-              className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
+            <div key={m.id} className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               {m.role === 'assistant' && (
-                <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-                  </svg>
+                <div
+                  className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 text-white text-xs font-bold"
+                  style={{ background: BJ_GRADIENT }}
+                >
+                  BJ
                 </div>
               )}
               <div
-                className={`max-w-[70%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap shadow-sm ${
+                className="max-w-[70%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap shadow-sm"
+                style={
                   m.role === 'user'
-                    ? 'bg-blue-600 text-white rounded-br-sm'
-                    : 'bg-white text-gray-800 rounded-bl-sm border border-gray-100'
-                }`}
+                    ? { background: BJ_RED, color: '#fff', borderBottomRightRadius: 4 }
+                    : { background: '#fff', color: '#333', borderBottomLeftRadius: 4, border: '1px solid #eee' }
+                }
               >
                 {text}
               </div>
@@ -113,16 +147,17 @@ export default function ChatPage() {
 
         {isLoading && (
           <div className="flex gap-3 justify-start">
-            <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
-              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-              </svg>
+            <div
+              className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 text-white text-xs font-bold"
+              style={{ background: BJ_GRADIENT }}
+            >
+              BJ
             </div>
             <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
               <div className="flex gap-1 items-center h-4">
-                <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: BJ_RED, animationDelay: '0ms' }} />
+                <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: BJ_RED, animationDelay: '150ms' }} />
+                <span className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: '#F5A000', animationDelay: '300ms' }} />
               </div>
             </div>
           </div>
@@ -137,14 +172,18 @@ export default function ChatPage() {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="질문을 입력하세요..."
+            placeholder="궁금한 업무 내용을 입력하세요..."
             disabled={isLoading}
-            className="flex-1 bg-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition disabled:opacity-60"
+            className="flex-1 bg-gray-100 rounded-xl px-4 py-3 text-sm transition disabled:opacity-60"
+            style={{ outline: 'none' }}
+            onFocus={(e) => { e.currentTarget.style.boxShadow = `0 0 0 2px ${BJ_RED}`; e.currentTarget.style.background = '#fff'; }}
+            onBlur={(e) => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.background = '#f3f4f6'; }}
           />
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white px-5 py-3 rounded-xl text-sm font-medium transition flex items-center gap-2"
+            className="text-white px-5 py-3 rounded-xl text-sm font-medium transition flex items-center gap-2 disabled:opacity-40"
+            style={{ background: BJ_RED }}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

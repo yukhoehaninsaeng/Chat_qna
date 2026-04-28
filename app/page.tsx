@@ -1,53 +1,57 @@
 import Link from 'next/link';
 
+const BJ_RED = '#D91F26';
+const BJ_GRADIENT = 'linear-gradient(135deg, #D91F26 0%, #F5A000 100%)';
+
 export default function HomePage() {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://your-domain.vercel.app';
-  const embedCode = `<script src="${appUrl}/widget.js"></script>`;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://bumjinchatbot.vercel.app';
+  const iframeCode = `<iframe\n  src="${appUrl}/embed"\n  style="position:fixed;bottom:0;right:0;width:430px;height:640px;border:none;z-index:2147483647;"\n  allowtransparency="true"\n></iframe>`;
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+    <main className="min-h-screen flex items-center justify-center px-4" style={{ background: 'linear-gradient(135deg, #fff5f5 0%, #fff9f0 100%)' }}>
       <div className="max-w-2xl w-full text-center space-y-8">
+        {/* 로고 영역 */}
         <div>
-          <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
+          <div
+            className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 font-bold text-2xl text-white shadow-lg"
+            style={{ background: BJ_GRADIENT }}
+          >
+            BJ
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">사내 문서 Q&A 챗봇</h1>
-          <p className="text-gray-600 mt-2">
-            회사 내부 문서를 업로드하고, AI가 즉시 답변하는 어시스턴트
+          <h1 className="text-3xl font-bold" style={{ color: '#1a1a1a' }}>범진전자 AI 도우미</h1>
+          <p className="text-gray-500 mt-2">
+            업무 문서를 기반으로 직원들의 질문에 즉시 답변하는 AI 어시스턴트
           </p>
         </div>
 
         {/* 사용 방법 2가지 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
           {/* 직접 접속 */}
-          <Link href="/chat"
-            className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition group border-2 border-transparent hover:border-blue-500">
-            <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 transition">
-              <svg className="w-5 h-5 text-blue-600 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
+          <Link
+            href="/chat"
+            className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition group border-2 border-transparent"
+          >
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 text-white font-bold text-sm transition"
+              style={{ background: BJ_GRADIENT }}
+            >
+              BJ
             </div>
             <h2 className="font-semibold text-gray-900 mb-1">챗봇 바로 사용</h2>
-            <p className="text-sm text-gray-500">이 웹사이트에서 직접 문서 기반 Q&A를 이용합니다</p>
-            <p className="text-xs text-blue-600 mt-3 font-medium">바로 시작하기 →</p>
+            <p className="text-sm text-gray-500">이 웹사이트에서 직접 문서 기반 Q&amp;A를 이용합니다</p>
+            <p className="text-xs font-medium mt-3" style={{ color: BJ_RED }}>바로 시작하기 →</p>
           </Link>
 
           {/* 위젯 삽입 */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-              <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-              </svg>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 font-bold text-sm text-white"
+              style={{ background: 'linear-gradient(135deg, #595959, #333)' }}>
+              &lt;/&gt;
             </div>
             <h2 className="font-semibold text-gray-900 mb-1">다른 웹사이트에 삽입</h2>
-            <p className="text-sm text-gray-500 mb-3">스크립트 한 줄로 어느 웹사이트에나 채팅 위젯을 추가합니다</p>
-            <pre className="bg-gray-900 text-green-400 rounded-lg p-3 text-xs overflow-x-auto">
-              <code>{embedCode}</code>
+            <p className="text-sm text-gray-500 mb-3">iframe 한 줄로 어느 웹사이트에나 위젯을 추가합니다</p>
+            <pre className="bg-gray-900 text-green-400 rounded-lg p-3 text-xs overflow-x-auto whitespace-pre-wrap break-all">
+              <code>{iframeCode}</code>
             </pre>
           </div>
         </div>
