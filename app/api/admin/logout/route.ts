@@ -5,7 +5,7 @@ export async function POST() {
   const response = NextResponse.json({ success: true });
   response.cookies.set(SESSION_COOKIE_NAME, '', {
     maxAge: 0,
-    path: '/admin',
+    path: '/',
     httpOnly: true,
   });
   return response;
