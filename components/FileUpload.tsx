@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, DragEvent, ChangeEvent } from 'react';
+import { useRouter } from 'next/navigation';
 
 type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
 
@@ -11,6 +12,7 @@ interface UploadResult {
 }
 
 export default function FileUpload({ onUploadSuccess }: { onUploadSuccess?: () => void }) {
+  const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<UploadStatus>('idle');
   const [result, setResult] = useState<UploadResult | null>(null);
@@ -73,6 +75,11 @@ export default function FileUpload({ onUploadSuccess }: { onUploadSuccess?: () =
       });
 
       const data = await res.json();
+
+      if (res.status === 401) {
+        router.push('/admin');
+        return;
+      }
 
       if (!res.ok) {
         setErrorMessage(data.error ?? '업로드에 실패했습니다.');
