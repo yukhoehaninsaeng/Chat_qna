@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import FileUpload from '@/components/FileUpload';
+import TextInput from '@/components/TextInput';
 import DocumentList from '@/components/DocumentList';
 
 export default function DashboardPage() {
@@ -19,7 +19,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* 상단 헤더 */}
+      {/* 헤더 */}
       <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -47,34 +47,34 @@ export default function DashboardPage() {
       </header>
 
       <main className="max-w-2xl mx-auto px-4 py-6 space-y-6">
-        {/* 파일 업로드 */}
+        {/* 텍스트 입력 */}
         <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="font-semibold text-gray-900 mb-1">문서 업로드</h2>
+          <h2 className="font-semibold text-gray-900 mb-1">내용 등록</h2>
           <p className="text-sm text-gray-500 mb-4">
-            업로드된 문서는 자동으로 분석되어 챗봇에서 사용됩니다.
+            챗봇이 참고할 내용을 직접 입력하세요. 저장하면 자동으로 AI가 학습합니다.
           </p>
-          <FileUpload onUploadSuccess={() => setRefreshKey((k) => k + 1)} />
+          <TextInput onSaveSuccess={() => setRefreshKey((k) => k + 1)} />
         </div>
 
-        {/* 업로드된 문서 목록 */}
+        {/* 등록된 문서 목록 */}
         <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="font-semibold text-gray-900 mb-4">
-            업로드된 문서
-          </h2>
+          <h2 className="font-semibold text-gray-900 mb-4">등록된 내용</h2>
           <DocumentList refreshTrigger={refreshKey} />
         </div>
 
-        {/* 위젯 미리보기 링크 */}
+        {/* 챗봇 미리보기 */}
         <div className="bg-blue-50 rounded-xl p-4 text-sm text-blue-700">
-          <p className="font-medium mb-1">챗봇 위젯 미리보기</p>
-          <a
-            href="/widget"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline hover:no-underline"
-          >
-            /widget 페이지에서 채팅을 직접 테스트할 수 있습니다 →
-          </a>
+          <p className="font-medium mb-1">챗봇 테스트</p>
+          <div className="flex gap-3">
+            <a href="/chat" target="_blank" rel="noopener noreferrer"
+              className="underline hover:no-underline">
+              /chat — 전체 화면 챗봇 →
+            </a>
+            <a href="/widget" target="_blank" rel="noopener noreferrer"
+              className="underline hover:no-underline">
+              /widget — 위젯 미리보기 →
+            </a>
+          </div>
         </div>
       </main>
     </div>
