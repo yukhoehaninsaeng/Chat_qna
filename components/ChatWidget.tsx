@@ -38,7 +38,7 @@ function BjAvatar({ size = 6 }: { size?: number }) {
     <img
       src="/bjbot.png"
       alt="BJ 도우미"
-      style={{ width: px, height: px, borderRadius: '50%', objectFit: 'contain', background: '#fff', flexShrink: 0 }}
+      style={{ width: px, height: px, objectFit: 'contain', flexShrink: 0 }}
     />
   );
 }
@@ -84,7 +84,7 @@ export default function ChatWidget({ className = 'h-screen' }: { className?: str
         className="text-white px-4 py-3 flex items-center gap-3 flex-shrink-0"
         style={{ background: BJ_GRADIENT }}
       >
-        <BjAvatar size={8} />
+        <BjAvatar size={11} />
         <div>
           <p className="font-semibold text-sm leading-tight">범진전자 AI 도우미</p>
           <p className="text-xs text-white/70">문서 기반으로 답변합니다</p>
@@ -99,7 +99,7 @@ export default function ChatWidget({ className = 'h-screen' }: { className?: str
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3" style={{ background: '#FAFAFA' }}>
         {messages.length === 0 && (
           <div className="text-center mt-8">
-            <BjAvatar size={12} />
+            <BjAvatar size={20} />
             <p className="text-sm font-medium text-gray-700 mt-3">무엇이든 물어보세요</p>
             <p className="text-xs text-gray-400 mt-1">범진전자 업무 문서를 기반으로 답변합니다</p>
           </div>
@@ -112,7 +112,7 @@ export default function ChatWidget({ className = 'h-screen' }: { className?: str
             <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               {m.role === 'assistant' && (
                 <div className="mr-2 mt-0.5">
-                  <BjAvatar size={6} />
+                  <BjAvatar size={9} />
                 </div>
               )}
               <div
